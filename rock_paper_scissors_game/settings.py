@@ -51,7 +51,6 @@ WSGI_APPLICATION = 'rock_paper_scissors_game.wsgi.application'
 if os.environ.get("ENVIRONMENT_NAME") in ("PRODUCTION",):
     SECRET_KEY = os.environ["ROCK_PAPER_SCISSORS_SECRET_KEY"]
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    URL_DOMAIN = os.environ['ROCK_PAPER_SCISSORS_URL_DOMAIN']
     DEBUG = False
 
     ALLOWED_HOSTS = ['*']
@@ -72,7 +71,6 @@ else:
 
     DEBUG = True
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    URL_DOMAIN = "localhost"
 
     ALLOWED_HOSTS = ['*']
 
