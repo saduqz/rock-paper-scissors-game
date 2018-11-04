@@ -506,3 +506,8 @@ fabric.properties
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
