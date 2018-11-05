@@ -1,48 +1,93 @@
 let app = new Vue({
-    el: '#app',
-    data: {
-        message: 'Hello Vue!',
-        isInGame: false,
-        rock_paper_scissors_image: "/static/img/rock-paper-scissors.jpg",
-        round_number: 1,
-        player1: "",
-        player2: "",
-        selectPlayer1: "ROCK",
-        selectPlayer2: "ROCK",
-        rounds: [],
+  el: "#app",
+  data: {
+    message: "Hello Vue!",
+    isInGame: false,
+    rock_paper_scissors_image: "/static/img/rock-paper-scissors.jpg",
+    roundNumber: 1,
+    roundId: null,
+    player1: "",
+    player2: "",
+    movementPlayer1: "ROCK",
+    movementPlayer2: "ROCK",
+    rounds: [],
+    roundMovements: [],
+    disableOkButton: false
+  },
+  methods: {
+    startToPlay: function() {
+      if (this.player1 && this.player2 && (this.player1 !== this.player2)) {
+        this.isInGame = true;
+        apiCreateRound(this.player1, this.player2).then(data => {
+          if (data.player_1.username !== this.player1) {
+            this.player1 = data.player_1.username;
+            this.player2 = data.player_2.username;
+          }
+          this.roundId = data.id;
+          this.roundMovements = data.movements_set;
+          this.updateRoundsData();
+        });
+      } else {
+        alert("Players are required and can't be equals");
+      }
     },
-    methods: {
-        start: function () {
-            if (this.player1 && this.player2) {
-                this.isInGame = true;
-                this.test();
-            } else {
-                alert("Players are required")
-            }
-        },
-        cancel: function () {
-            this.isInGame = false;
-            this.clearData();
-        },
-        clearData: function () {
-            this.player1 = "";
-            this.player2 = "";
-            this.rounds = [];
-        },
+    createMovement: function() {
+      this.disableOkButton = true;
+      apiCreateMovement(
+        this.roundId,
+        this.movementPlayer1,
+        this.movementPlayer2
+      ).then(data => {
+        if (data.round_finished) {
+          apiCreateRound(this.player1, this.player2).then(newRound => {
+            this.roundId = newRound.id;
+            this.roundMovements = newRound.movements_set;
+            this.updateRoundsData();
+            this.disableOkButton = false;
+            let message = `The winner for the round ${this.roundNumber} is ${data.winner.username}`
+            alert(message)
+          });
+        } else {
+          apiGetRoundData(this.roundId).then(data => {
+            this.roundMovements = data.movements_set;
+            this.disableOkButton = false;
+          });
+        }
+      });
+    },
+    cancel: function() {
+      this.isInGame = false;
+      this.clearData();
+    },
 
-        test: function () {
-            this.player1 = "Andrés";
-            this.player2 = "Nelson";
-            console.log("selectPlayer1: ", this.selectPlayer1);
-            console.log("selectPlayer2: ", this.selectPlayer2);
+    updateRoundsData: function() {
+      apiGetRoundsDataByRound(this.roundId).then(data => {
+        this.rounds = data;
+        this.roundNumber = data.length;
+      });
+    },
+    clearData: function() {
+      this.player1 = "";
+      this.player2 = "";
+      this.movementPlayer1 = "ROCK";
+      this.movementPlayer2 = "ROCK";
+      this.rounds = [];
+      this.disableOkButton = false;
+    },
 
-            this.rounds = [
-                {number: 1, winner: "Andrés"},
-                {number: 2, winner: "Andrés"},
-                {number: 3, winner: "Nelson"},
-                {number: 4, winner: "Nelson"},
-                {number: 5, winner: "Andrés"},
-            ]
-        },
+    test: function() {
+      this.player1 = "Andrés";
+      this.player2 = "Nelson";
+      console.log("movementPlayer1: ", this.movementPlayer1);
+      console.log("movementPlayer2: ", this.movementPlayer2);
+
+      this.rounds = [
+        { number: 1, winner: "Andrés" },
+        { number: 2, winner: "Andrés" },
+        { number: 3, winner: "Nelson" },
+        { number: 4, winner: "Nelson" },
+        { number: 5, winner: "Andrés" }
+      ];
     }
+  }
 });

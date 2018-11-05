@@ -2,156 +2,175 @@
 {% load static %}
 
 {% block title %}
-    Index
+  Index
 {% endblock %}
 
 {% block content %}
 
-    <div id="app">
-        {% verbatim %}
+  <div id="app">
+    {% verbatim %}
 
-        <template v-if="!isInGame">
-            <div class="row">
-                <div class="col-md-8">
-                    <h1>Enter Player's Names</h1>
-                    <h1>{{ message }}</h1>
-                    <hr>
+    <template v-if="!isInGame">
+      <div class="row">
+        <div class="col-md-8">
+          <h1>Enter Player's Names</h1>
+          <h1>{{ message }}</h1>
+          <hr>
 
-                    <div class="form-group row">
-                        <label for="player-1" class="col-2 col-form-label">Player 1</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" v-model="player1" id="player-1"
-                                   placeholder="Player 1">
-                        </div>
-                    </div>
+          <div class="form-group row">
+            <label for="player-1" class="col-2 col-form-label">Player 1</label>
+            <div class="col-10">
+              <input type="text" class="form-control" v-model="player1" id="player-1"
+                     placeholder="Player 1">
+            </div>
+          </div>
 
-                    <div class="form-group row">
-                        <label for="player-2" class="col-2 col-form-label">Player 2</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" v-model="player2" id="player-2"
-                                   placeholder="Player 2">
-                        </div>
-                    </div>
+          <div class="form-group row">
+            <label for="player-2" class="col-2 col-form-label">Player 2</label>
+            <div class="col-10">
+              <input type="text" class="form-control" v-model="player2" id="player-2"
+                     placeholder="Player 2">
+            </div>
+          </div>
 
-                    <div class="form-group row">
-                        <div class="col-10 offset-sm-2 text-center">
-                            <button v-on:click="start" type="button" class="btn btn-lg btn-info start-button">
-                                Start
-                            </button>
-                        </div>
-                    </div>
+          <div class="form-group row">
+            <div class="col-10 offset-sm-2 text-center">
+              <button v-on:click="startToPlay" type="button" class="btn btn-lg btn-info start-button">
+                Start
+              </button>
+            </div>
+          </div>
 
-                    <hr>
+          <hr>
 
-                    <div class="col-10 offset-sm-2">
-                        <img class="img-fluid" :src="rock_paper_scissors_image" alt="">
-                    </div>
+          <div class="col-10 offset-sm-2">
+            <img class="img-fluid description-image" :src="rock_paper_scissors_image" alt="">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <h3 class="my-3">Rock Paper Scissors Game</h3>
+          <p>The first player to beat the other player 3 times wins the battle</p>
+          <h3 class="my-3">Project Details</h3>
+          <ul>
+            <li>Rock beats Scissors</li>
+            <li>Scissors beats Paper</li>
+            <li>Paper beats Rock</li>
+          </ul>
+        </div>
+
+      </div>
+    </template>
+
+    <template v-if="isInGame">
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <h1>Round {{ roundNumber }}</h1>
+          <br>
+
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group row">
+                <label for="player-1" class="col-3 col-form-label">{{ player1 }}</label>
+                <div class="col-9">
+                  <select type="text" class="form-control" v-model="movementPlayer1" id="movement-player-1">
+                    <option value="ROCK">ROCK</option>
+                    <option value="PAPER">PAPER</option>
+                    <option value="SCISSORS">SCISSORS</option>
+                  </select>
+
                 </div>
-
-                <div class="col-md-4">
-                    <h3 class="my-3">Rock Paper Scissors Game</h3>
-                    <p>The first player to beat the other player 3 times wins the battle</p>
-                    <h3 class="my-3">Project Details</h3>
-                    <ul>
-                        <li>Rock beats Scissors</li>
-                        <li>Scissors beats Paper</li>
-                        <li>Paper beats Rock</li>
-                    </ul>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row">
+                <label for="player-1" class="col-3 col-form-label">{{ player2 }}</label>
+                <div class="col-9">
+                  <select type="text" class="form-control" v-model="movementPlayer2" id="movement-player-2">
+                    <option value="ROCK">ROCK</option>
+                    <option value="PAPER">PAPER</option>
+                    <option value="SCISSORS">SCISSORS</option>
+                  </select>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <button :disabled="disableOkButton" v-on:click="createMovement" type="button"
+                      class="btn btn-lg btn-info save-movements-button">
+                OK
+              </button>
 
             </div>
-        </template>
 
-        <template v-if="isInGame">
+            <div class="col-6">
+              <button v-on:click="cancel" type="button"
+                      class="btn btn-lg btn-warning save-movements-button cancel-button">
+                Cancel
+              </button>
+            </div>
+
+          </div>
+
+          <div v-if="roundMovements.length > 0" class="current-round">
+            <h1>Current round</h1>
+
             <div class="row">
+              <hr>
+              <div class="col-4">
+                <h4>Movement</h4>
+              </div>
+              <div class="col-8">
+                <h4>Winner</h4>
+              </div>
+
+              <template v-for="(movement, index) in roundMovements">
+                <div class="col-4"><p>{{ index + 1 }}</p></div>
                 <div class="col-8">
-                    <h1>Round {{ round_number }}</h1>
-                    <br>
-
-                    <div class="col-12">
-
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group row">
-                                    <label for="player-1" class="col-3 col-form-label">{{ player1 }}</label>
-                                    <div class="col-9">
-                                        <select type="text" class="form-control" v-model="selectPlayer1"
-                                                id="select-player-1">
-                                            <option value="ROCK">ROCK</option>
-                                            <option value="PAPER">PAPER</option>
-                                            <option value="SCISSORS">SCISSORS</option>
-                                        </select>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group row">
-                                    <label for="player-1" class="col-3 col-form-label">{{ player2 }}</label>
-                                    <div class="col-9">
-                                        <select type="text" class="form-control" v-model="selectPlayer2"
-                                                id="select-player-2">
-                                            <option value="ROCK">ROCK</option>
-                                            <option value="PAPER">PAPER</option>
-                                            <option value="SCISSORS">SCISSORS</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-6">
-                                <button v-on:click="start" type="button"
-                                        class="btn btn-lg btn-info save-movements-button">
-                                    OK
-                                </button>
-
-                            </div>
-
-                            <div class="col-6">
-                                <button v-on:click="cancel" type="button"
-                                        class="btn btn-lg btn-warning save-movements-button">
-                                    Cancel
-                                </button>
-
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
+                  <p v-if="movement.winner">{{ movement.winner.username }}</p>
+                  <p v-else>-- Draw --</p>
                 </div>
+              </template>
 
-                <div class="col-4">
-                    <h1>Score</h1>
-                    <div class="row">
-
-                        <div class="col-4">
-                            <h4>Round</h4>
-                            <template v-for="round in rounds">
-                                <p>{{ round.number }}</p>
-                            </template>
-                        </div>
-                        <div class="col-8">
-                            <h4>Winner</h4>
-                            <template v-for="round in rounds">
-                                <p>{{ round.winner }}</p>
-                            </template>
-                        </div>
-
-                    </div>
-                </div>
             </div>
-        </template>
+          </div>
 
-    </div>
-    {% endverbatim %}
+        </div>
+
+        <div class="col-12 col-md-4">
+          <h1>Score</h1>
+          <div class="row">
+
+            <div class="col-4">
+              <h4>Round</h4>
+            </div>
+            <div class="col-8">
+              <h4>Winner</h4>
+            </div>
+
+            <template v-for="(round, index) in rounds">
+              <div class="col-4 col-md-4"><p>{{ index + 1 }}</p></div>
+              <div class="col-8 col-md-8">
+                <p v-if="round.winner">{{ round.winner.username }}</p>
+                <p v-else>-- No Winner --</p>
+              </div>
+            </template>
+
+          </div>
+        </div>
+      </div>
+    </template>
+
+  </div>
+  {% endverbatim %}
 
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'js/index.js' %}" defer></script>
+  <script src="{% static 'js/index-api.js' %}" defer></script>
+  <script src="{% static 'js/index.js' %}" defer></script>
 
 {% endblock %}

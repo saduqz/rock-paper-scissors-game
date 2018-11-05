@@ -23,15 +23,16 @@ def create_movement_controller(round_id, player_1_movement, player_2_movement):
     if round_data['winner']:
         raise GenericException(message="This round has a winner")
 
-    winner_id = get_winner_for_a_match(round_data['player_1'], round_data['player_2'], player_1_movement,
+    winner_id = get_winner_for_a_match(round_data['player_1']['id'], round_data['player_2']['id'], player_1_movement,
                                        player_2_movement)
 
     movement = create_movement_manager(round_id, player_1_movement, player_2_movement, winner_id)
 
     movements_with_winner = get_round_movements_with_winner_by_user_manager(round_id, winner_id)
-
+    movement['round_finished'] = False
     if len(movements_with_winner) >= 3:
         set_user_as_the_winner_of_a_round(round_id, winner_id)
+        movement['round_finished'] = True
 
     return movement
 

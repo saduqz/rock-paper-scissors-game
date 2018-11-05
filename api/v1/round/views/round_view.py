@@ -3,7 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from apps.round.controllers.round_controller import create_round_controller, get_round_controller
+from apps.round.controllers.round_controller import (create_round_controller, get_round_controller,
+                                                     get_rounds_by_round_controller)
 from exceptions.generic_exceptions import GenericException
 
 
@@ -41,6 +42,27 @@ def get_round_view(request, round_id):
     try:
 
         round_data = get_round_controller(round_id)
+        return Response({'data': round_data})
+
+    except GenericException as e:
+        return Response({'message': e.message}, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({'message': "Unexpected error getting the round"},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["GET"])
+def get_rounds_by_round(request, round_id):
+    """
+    Get the rounds data by round ID
+    :param request: Request object.
+    :param round_id: Round ID.
+    :return: Json, round data.
+    """
+    try:
+
+        round_data = get_rounds_by_round_controller(round_id)
         return Response({'data': round_data})
 
     except GenericException as e:

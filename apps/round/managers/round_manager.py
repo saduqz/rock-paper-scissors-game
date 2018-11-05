@@ -47,6 +47,20 @@ def get_round_by_id_manager(round_id):
     return serializer.data
 
 
+def get_rounds_by_round_manager(round_id):
+    """
+    Get round objects.
+    :param round_id: String, movement ID.
+    :return: Dictionary, serializer with logbook data.
+    """
+
+    query = Rounds.objects.filter(id=round_id).first()
+
+    rounds = Rounds.objects.filter(player_1=query.player_1, player_2=query.player_2).order_by('created_at').all()
+    serializer = RoundSerializer(rounds, many=True)
+    return serializer.data
+
+
 def set_user_as_the_winner_of_a_round(round_id, user_id):
     """
     Set an user as the winner of a round
