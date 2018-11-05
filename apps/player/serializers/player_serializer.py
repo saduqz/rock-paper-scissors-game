@@ -12,9 +12,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
         count = 0
         for roundObject in obj.rounds_set.all():
-            print(count)
             if roundObject.winner_id == obj.id:
-                print("x")
                 count += 1
         return count
 

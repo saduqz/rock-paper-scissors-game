@@ -12,11 +12,22 @@ let app = new Vue({
     movementPlayer2: "ROCK",
     rounds: [],
     roundMovements: [],
-    disableOkButton: false
+    disableOkButton: false,
+    playing: true,
+    lookingRank: false,
+    playersRank: []
+  },
+  mounted() {
+    this.getPlayersrank();
   },
   methods: {
+    getPlayersrank: function() {
+      apiGetPlayersRank().then(data => {
+        this.playersRank = data;
+      });
+    },
     startToPlay: function() {
-      if (this.player1 && this.player2 && (this.player1 !== this.player2)) {
+      if (this.player1 && this.player2 && this.player1 !== this.player2) {
         this.isInGame = true;
         apiCreateRound(this.player1, this.player2).then(data => {
           if (data.player_1.username !== this.player1) {
@@ -39,13 +50,16 @@ let app = new Vue({
         this.movementPlayer2
       ).then(data => {
         if (data.round_finished) {
+          this.getPlayersrank();
           apiCreateRound(this.player1, this.player2).then(newRound => {
             this.roundId = newRound.id;
             this.roundMovements = newRound.movements_set;
             this.updateRoundsData();
             this.disableOkButton = false;
-            let message = `The winner for the round ${this.roundNumber} is ${data.winner.username}`
-            alert(message)
+            let message = `The winner for the round ${this.roundNumber} is ${
+              data.winner.username
+            }`;
+            alert(message);
           });
         } else {
           apiGetRoundData(this.roundId).then(data => {

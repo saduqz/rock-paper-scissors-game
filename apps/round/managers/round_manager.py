@@ -26,7 +26,7 @@ def get_last_round_by_players_name_manager(player_1, player_2):
     """
 
     query = Rounds.objects.filter(player_1__username=player_1, player_2__username=player_2)
-    query = query.order_by('-created_at')
+    query = query.order_by('-created_at', 'movements__created_at')
 
     if query.first():
         serializer = RoundSerializer(query.first(), many=False)
