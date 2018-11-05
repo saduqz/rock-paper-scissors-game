@@ -21,8 +21,8 @@ def get_or_create_players_manager(usernames):
 
 def get_players_rank_manager():
     """
-    Get players rank data.
-    :return:
+    Get players rank data sorted by rounds won descending
+    :return: List with players rank data.
     """
     query = Players.objects.prefetch_related('rounds_set').all()
     serializer = PlayerSerializer(query, many=True)
