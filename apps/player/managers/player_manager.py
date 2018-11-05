@@ -17,3 +17,13 @@ def get_or_create_players_manager(usernames):
 
     serializer = PlayerSerializer(data, many=True)
     return serializer.data
+
+
+def get_players_rank_manager():
+    """
+    Get players rank data.
+    :return:
+    """
+    query = Players.objects.prefetch_related('rounds_set').all()
+    serializer = PlayerSerializer(query, many=True)
+    return serializer.data
