@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block content %}
+
+    <!-- Portfolio Item Row -->
+    <div class="row">
+
+        <div class="col-md-8">
+            <h1>Enter Player's Names</h1>
+            <hr>
+
+            <div class="form-group row">
+                <label for="player-1" class="col-2 col-form-label">Player 1</label>
+                <div class="col-10">
+                    <input type="text" class="form-control" id="player-1" placeholder="Player 1">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="player-2" class="col-2 col-form-label">Player 2</label>
+                <div class="col-10">
+                    <input type="text" class="form-control" id="player-2" placeholder="Player 2">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-10 offset-sm-2 text-center">
+                    <button type="button" class="btn btn-lg btn-info start-button">
+                        Start
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <img class="img-fluid" src="{% static 'img/rock-paper-scissors.jpg' %}" alt="">
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="my-3">Rock Paper Scissors Game</h3>
+            <p>The first player to beat the other player 3 times wins the battle</p>
+            <h3 class="my-3">Project Details</h3>
+            <ul>
+                <li>Rock beats Scissors</li>
+                <li>Scissors beats Paper</li>
+                <li>Paper beats Rock</li>
+            </ul>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{% endblock %}
