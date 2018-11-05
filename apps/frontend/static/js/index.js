@@ -13,8 +13,6 @@ let app = new Vue({
     rounds: [],
     roundMovements: [],
     disableOkButton: false,
-    playing: true,
-    lookingRank: false,
     playersRank: []
   },
   mounted() {
