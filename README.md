@@ -2,6 +2,8 @@
 
 The project is built using Python 3.6+, Django, Vue.js and PostgreSQL 
 
+FYI: The code of Vue.js is exactly in `apps/frontend/static/js/index.js` and `apps/frontend/static/js/index-api.js`.
+
 ## Run project without install anything
 
 1. Go to the super secure site, including https: `https://saduqz.com`
