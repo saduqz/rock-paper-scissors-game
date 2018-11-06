@@ -39,6 +39,8 @@ The project is built using Python 3.6+, Django, Vue.js and PostgreSQL
 
 1. Go to `http://localhost:8000` and enjoy it! :P
 
+1. You can go to `http://localhost:8000/api/docs/` to see the API documentation (It's not perfect documented)
+
 
 ## Run Unit Test
 

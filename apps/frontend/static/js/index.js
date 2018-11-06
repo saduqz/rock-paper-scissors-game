@@ -1,7 +1,6 @@
 let app = new Vue({
   el: "#app",
   data: {
-    message: "Hello Vue!",
     isInGame: false,
     rock_paper_scissors_image: "/static/img/rock-paper-scissors.jpg",
     roundNumber: 1,
