@@ -35,3 +35,10 @@ The project is built using Python 3.6+, Django, Vue.js and PostgreSQL
 0. Run in local host: `python manage.py runserver`
 
 0. Go to `http://localhost:8000` and enjoy it! :P
+
+
+## Run Unit Test
+
+The project has unit test for the *Rounds* API.
+
+You can run with the command: `coverage run manage.py test`
