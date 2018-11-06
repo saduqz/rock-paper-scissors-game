@@ -5,12 +5,10 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 sentry_sdk.init(
     dsn="https://fcb6e670c274499ebd1b72414310169f@sentry.io/1317293",
     integrations=[DjangoIntegration()]
 )
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',

@@ -1,3 +1,5 @@
+import sentry_sdk
+
 from rest_framework import status
 
 from rest_framework.decorators import api_view
@@ -29,6 +31,7 @@ def create_round_view(request):
         return Response({'message': e.message}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
+        sentry_sdk.capture_exception(e)
         return Response({'message': "Unexpected error creating the round"},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -64,6 +67,7 @@ def get_round_view(request, round_id):
         return Response({'message': e.message}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
+        sentry_sdk.capture_exception(e)
         return Response({'message': "Unexpected error getting the round"},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -85,5 +89,6 @@ def get_rounds_by_round(request, round_id):
         return Response({'message': e.message}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
+        sentry_sdk.capture_exception(e)
         return Response({'message': "Unexpected error getting the round"},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
