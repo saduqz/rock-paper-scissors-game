@@ -18,9 +18,12 @@ The project is built using Python 3.6+, Django, Vue.js and PostgreSQL
 0. Activate your environment with `source venv/bin/activate`
 
 0. Install the requirements with command `pip install -r requirements.txt` into your virtual environment.
+
+0. Create a PostgreSQL database, you will write the credentials in the next step.
  
 0. Create a file in `rock_paper_scissors_game/local_info.py` (Same level than settings.py)
-    - The content of the file should be this: 
+    - This file will contains the database and other local information
+    - The content of the file should be this:
     ```
     ENGINE = "django.db.backends.postgresql"
     NAME = "your DB name"
