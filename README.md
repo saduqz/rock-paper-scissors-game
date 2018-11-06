@@ -37,7 +37,7 @@ The project is built using Python 3.6+, Django, Vue.js and PostgreSQL
 
 1. Run in local host: `python manage.py runserver`
 
-1. Go to `http://localhost:8000. and enjoy it! :P
+1. Go to `http://localhost:8000` and enjoy it! :P
 
 
 ## Run Unit Test
