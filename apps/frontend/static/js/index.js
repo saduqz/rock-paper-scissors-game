@@ -37,7 +37,7 @@ let app = new Vue({
           this.updateRoundsData();
         });
       } else {
-        alert("Players are required and can't be equals");
+        toastr.error("Players are required and can't be equals");
       }
     },
     createMovement: function() {
@@ -57,7 +57,7 @@ let app = new Vue({
             let message = `The winner for the round ${this.roundNumber} is ${
               data.winner.username
             }`;
-            alert(message);
+            toastr.info(message);
           });
         } else {
           apiGetRoundData(this.roundId).then(data => {
@@ -86,20 +86,5 @@ let app = new Vue({
       this.rounds = [];
       this.disableOkButton = false;
     },
-
-    test: function() {
-      this.player1 = "Andrés";
-      this.player2 = "Nelson";
-      console.log("movementPlayer1: ", this.movementPlayer1);
-      console.log("movementPlayer2: ", this.movementPlayer2);
-
-      this.rounds = [
-        { number: 1, winner: "Andrés" },
-        { number: 2, winner: "Andrés" },
-        { number: 3, winner: "Nelson" },
-        { number: 4, winner: "Nelson" },
-        { number: 5, winner: "Andrés" }
-      ];
-    }
   }
 });
