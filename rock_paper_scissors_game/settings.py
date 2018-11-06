@@ -1,12 +1,16 @@
 import os
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = True
 
-ALLOWED_HOSTS = []
+sentry_sdk.init(
+    dsn="https://fcb6e670c274499ebd1b72414310169f@sentry.io/1317293",
+    integrations=[DjangoIntegration()]
+)
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
