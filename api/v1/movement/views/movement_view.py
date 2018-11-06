@@ -29,3 +29,14 @@ def create_movement_view(request):
     except Exception as e:
         return Response({'message': "Unexpected error creating the movement"},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def __validate_create_movement_view_params(data):
+    if not 'player_1_movement' in data or not 'player_2_movement' in data:
+        raise GenericException(message="The parameter player_1_movement and player_2_movement are required")
+
+    player_1_movement = data['player_1_movement']
+    player_2_movement = data['player_2_movement']
+
+    if not player_1_movement or not player_2_movement:
+        raise GenericException(message="Both player's movements are required")

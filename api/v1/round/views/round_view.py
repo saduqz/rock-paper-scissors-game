@@ -17,6 +17,8 @@ def create_round_view(request):
     """
     try:
 
+        __validate_create_round_view_params(request.data)
+
         player_1 = request.data['player_1']
         player_2 = request.data['player_2']
 
@@ -29,6 +31,20 @@ def create_round_view(request):
     except Exception as e:
         return Response({'message': "Unexpected error creating the round"},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def __validate_create_round_view_params(data):
+    if not 'player_1' in data or not 'player_2' in data:
+        raise GenericException(message="The parameter player_1 and player_2 are required")
+
+    player_1 = data['player_1']
+    player_2 = data['player_2']
+
+    if not player_1 or not player_2:
+        raise GenericException(message="Both player's user names are required")
+
+    if player_1 == player_2:
+        raise GenericException(message="The player's user names should be different")
 
 
 @api_view(["GET"])
